@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
 
-
+#GENERIC CLASS BASED VIEWS
 class Product_detail_view(generics.RetrieveAPIView):
     
     queryset = Product.objects.all()
@@ -17,13 +17,25 @@ class Product_list_view(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+class Product_destory_view(generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    
+
+class Product_update_view(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        if not instance.content: 
+            instance.content = instance.title
 
 class Product_create_api_view(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
-
-
+#FUNCTION BASED VIEWS
 @api_view(['GET', 'POST'])
 def alt_api_view(request, pk, *args, **kwargs):
     if request.method == 'GET':
@@ -46,6 +58,8 @@ def alt_api_view(request, pk, *args, **kwargs):
         return Response("Wrong data format please check docs")
 
 
+
+# VIEWSET CLASS  BASED VIEWS
 class products_model_viewset(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

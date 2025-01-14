@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views import products_model_viewset,Product_detail_view, Product_create_api_view, Product_list_view, alt_api_view
+from .views import products_model_viewset,Product_detail_view, Product_create_api_view, Product_list_view, alt_api_view, Product_update_view, Product_destory_view
 
 from rest_framework import routers
 
@@ -12,5 +12,7 @@ urlpatterns = [
     path("list", Product_list_view.as_view()),
     path("create", Product_create_api_view.as_view()),
     path("<int:pk>", Product_detail_view.as_view()),
+    path("<int:pk>/update", Product_update_view.as_view()),
+    path("<int:pk>/destroy", Product_destory_view.as_view()),
     path("alt/<int:pk>", alt_api_view),
 ]
