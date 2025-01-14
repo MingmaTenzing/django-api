@@ -1,6 +1,7 @@
 from rest_framework import generics, viewsets
-
-
+from rest_framework.exceptions import NotFound
+from django.http import Http404
+from django.shortcuts import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Product
@@ -24,8 +25,12 @@ class Product_create_api_view(generics.CreateAPIView):
 
 
 @api_view(['GET', 'POST'])
-def alt_api_view(request):
+def alt_api_view(request, pk, *args, **kwargs):
     if request.method == 'GET':
+        if pk: 
+            query_instance = Product.objects.get(pk=pk)
+            serializer = ProductSerializer(query_instance, many=False)
+            return Response(serializer.data)
         query_instance = Product.objects.all() 
         serializer = ProductSerializer(query_instance, many=True)
         return Response(serializer.data)
