@@ -1,4 +1,4 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, mixins, permissions, authentication
 from rest_framework.exceptions import NotFound
 from django.http import Http404
 from django.shortcuts import HttpResponse
@@ -16,6 +16,8 @@ class Product_detail_view(generics.RetrieveAPIView):
 class Product_list_view(generics.ListAPIView): 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class Product_destory_view(generics.DestroyAPIView):
     queryset = Product.objects.all()
@@ -34,6 +36,26 @@ class Product_update_view(generics.UpdateAPIView):
 class Product_create_api_view(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    
+    
+# MIXIN VIEWS
+class product_mixin_view(mixins.ListModelMixin, generics.GenericAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    
+    def get( self,request, *args, **kwargs, ):
+        print(args,kwargs)
+        return self.list(request, *args, **kwargs)
+    
+    def post(self,request, *args, **kwargs): 
+        print('its post')
+        return self.list(request, *args, **kwargs)
+    
+    
+     
+    
+    
+    
     
 #FUNCTION BASED VIEWS
 @api_view(['GET', 'POST'])
