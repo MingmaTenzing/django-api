@@ -1,5 +1,6 @@
 from rest_framework import generics, viewsets, mixins, permissions, authentication
 from rest_framework.exceptions import NotFound
+from api.authorization import TokenAuthentication
 from django.http import Http404
 from django.shortcuts import HttpResponse
 from rest_framework.decorators import api_view
@@ -16,8 +17,8 @@ class Product_detail_view(generics.RetrieveAPIView):
 class Product_list_view(generics.ListAPIView): 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
 class Product_destory_view(generics.DestroyAPIView):
     queryset = Product.objects.all()

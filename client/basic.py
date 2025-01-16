@@ -12,6 +12,6 @@ token = response.json()['token']
 
 if token: 
     requestList = requests.get("http://127.0.0.1:8000/api/product/list", headers={
-        'Authorization': f"Token {token}"
+        'Authorization': f"Bearer {token}"
     })
     print(requestList.json())
