@@ -17,8 +17,8 @@ class Product_detail_view(generics.RetrieveAPIView):
 class Product_list_view(generics.ListAPIView): 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [permissions.IsAuthenticated]
 
 class Product_destory_view(generics.DestroyAPIView):
     queryset = Product.objects.all()
@@ -40,7 +40,7 @@ class Product_create_api_view(generics.CreateAPIView):
     
     
 # MIXIN VIEWS
-class product_mixin_view(mixins.ListModelMixin, generics.GenericAPIView):
+class product_mixin_view(mixins.ListModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
@@ -50,8 +50,11 @@ class product_mixin_view(mixins.ListModelMixin, generics.GenericAPIView):
     
     def post(self,request, *args, **kwargs): 
         print('its post')
-        return self.list(request, *args, **kwargs)
+        return self.create(request, *args, **kwargs)
     
+    def update(self,request,*args, **kwargs):
+        print('itsupdate')
+        return self.update(request,*args, **kwargs)
     
      
     
@@ -61,6 +64,7 @@ class product_mixin_view(mixins.ListModelMixin, generics.GenericAPIView):
 #FUNCTION BASED VIEWS
 @api_view(['GET', 'POST'])
 def alt_api_view(request, pk, *args, **kwargs):
+
     if request.method == 'GET':
         if pk: 
             query_instance = Product.objects.get(pk=pk)

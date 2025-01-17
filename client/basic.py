@@ -3,11 +3,12 @@ import json
 
 endpoint = "http://127.0.0.1:8000/api/get-token/"
 response= requests.post(endpoint, json={
-    'username': "ming",
+    'username': "user",
     'password': "password689++"
 })
 
 token = response.json()['token']
+print(token)
 
 
 if token: 
