@@ -30,12 +30,12 @@ def api_home(request, *args, **kwargs):
     
     return Response('not working')
 
-def raw_api(request):
-    data = Product.objects.all().values()
-    dict_converstion = model_to_dict(data)
-    print(dict_converstion)
-    convertjson = json.dumps(dict_converstion)
+# def raw_api(request):
+#     data = Product.objects.all().values()
+#     dict_converstion = model_to_dict(data)
+#     print(dict_converstion)
+#     convertjson = json.dumps(dict_converstion)
     
-    return Response(convertjson)
+#     return Response(convertjson)
 
     

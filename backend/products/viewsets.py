@@ -10,7 +10,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     lookup_field = 'pk'
     
 
-class ProductGenericViewSet(mixins.ListModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+class ProductGenericViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         queryset = Product.objects.all()
         serializer_class = ProductSerializer
         permission_classes = [permissions.AllowAny]
