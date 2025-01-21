@@ -37,15 +37,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'algoliasearch_django',
     'api',
     'products',
     'rest_framework',
     'rest_framework.authtoken',
-    'search'
-   
-
-
+    'search',
+  
 ]
+
+ALGOLIA = {
+  'APPLICATION_ID': 'X1C64R3M3J',
+  'API_KEY': 'ad9a5581216a3227d5bda4633c00eff2',
+  'INDEX_PREFIX':'cfe'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
