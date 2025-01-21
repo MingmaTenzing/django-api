@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
-
+from .paginations import Custom_Pagination
 #GENERIC CLASS BASED VIEWS
 class Product_detail_view(generics.RetrieveAPIView):
     
@@ -37,7 +37,28 @@ class Product_update_view(generics.UpdateAPIView):
 class Product_create_api_view(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class ProductListCreateView(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    pagination_class = Custom_Pagination
     
+    def perform_create(self, serializer):
+        title = serializer.validated_data.get('title')
+        content = serializer.validated_data.get('content')
+        if content is None: 
+            content = title
+        serializer.save(user=self.request.user, content=content)
+    
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     queryset = Product.objects.filter(user=user)
+    #     print(queryset)
+    #     return queryset
+        
+        
+    
+        
     
 # MIXIN VIEWS
 class product_mixin_view(mixins.ListModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
