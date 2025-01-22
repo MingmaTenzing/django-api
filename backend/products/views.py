@@ -8,11 +8,25 @@ from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
 from .paginations import Custom_Pagination
+
+from . import client
 #GENERIC CLASS BASED VIEWS
 class Product_detail_view(generics.RetrieveAPIView):
     
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    
+    
+class search_list_view(generics.GenericAPIView):
+    def get(self,request,*args, **kwargs):
+        
+        query = request.query_params.get('q')
+      
+        if not query: 
+            return Response("no query provided", status=403)
+        results = client.perform_search(query=query)
+        return Response(results)
+        
     
 class Product_list_view(generics.ListAPIView): 
     queryset = Product.objects.all()

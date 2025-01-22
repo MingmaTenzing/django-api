@@ -15,7 +15,7 @@ class ProductQuerySet(models.QuerySet):
         if user is not None: 
             qs2 = self.filter(user=user).filter(lookup)
             qs = (qs | qs2).distinct()
-            return qs
+        return qs
 
 class ProductManager(models.Manager):
     def get_queryset(self,*args, **kwargs):
